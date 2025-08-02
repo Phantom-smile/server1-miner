@@ -6,6 +6,10 @@ running = False
 wallet = ""
 user = ""
 
+@app.route("/")
+def home():
+    return "Server is running."
+
 @app.route("/start-mining", methods=["POST"])
 def start_mining():
     global running, wallet, user
@@ -14,19 +18,16 @@ def start_mining():
     user = data.get("username")
     pw = data.get("password")
     
-    # Optionally validate username/password here
     if user != "admin" or pw != "402393":
         return jsonify({"status": "unauthorized"}), 403
 
     running = True
-    # ← Start mining script here (placeholder)
     return jsonify({"status": "mining_started", "wallet": wallet})
 
 @app.route("/stop-mining", methods=["POST"])
 def stop_mining():
     global running
     running = False
-    # ← Stop mining script here (placeholder)
     return jsonify({"status": "mining_stopped"})
 
 @app.route("/status", methods=["GET"])
